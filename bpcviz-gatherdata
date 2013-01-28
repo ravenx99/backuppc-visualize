@@ -1,0 +1,115 @@
+#!/usr/bin/perl
+
+#========================================================================
+#
+# BackupPC-Visualize - a backup duration visualization tool
+#
+# bpcviz-gatherdata - gathers pc/<host>/backups data, filtering by
+# date and exclude list, and modifies timestamps to the format
+# expected by the Ploticus script
+#
+#   Copyright 2013 Carl D Cravens <raven@phoenyx.net>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#========================================================================
+
+use strict;
+use Getopt::Std;
+
+# take all parameters from the command-line
+
+my $hostdir      = '/var/lib/backuppc/pc'; # where the data files live
+my $days         = 2;                      # default number of days to view
+my $exclude_list = '';                     # list of hosts to exclude
+
+# process command-line options
+my %opts;
+getopts('d:p:e:', \%opts);
+# -d days
+# -p hostdir
+# -e 'exclude list'
+
+# if -d is greater than 0, then that will be a number of days to look
+# backward
+if ( $opts{d} > 0 ) {
+    $days=$opts{d};
+}
+
+# -p <path> is the hostdir
+if ( defined($opts{p}) ) {
+    $hostdir = $opts{p};
+}
+
+# -e 'a b c' is a exclude regex
+if ( defined($opts{e}) ) {
+    $exclude_list =  join('|', split(/\s/, $opts{e}));
+}
+
+# calculate cutoff threshold for oldest start timestamp to keep
+my $threshold = time()-($days*24*60*60);
+
+#
+# gather the data to plot
+#
+
+# target files: <hostdir>/<host>/backups
+
+opendir( my $DIR, "$hostdir" ) || die( "Cannot open directory $hostdir: $!\n" );
+my @hosts = readdir($DIR);
+closedir($DIR);
+
+# filter the hosts by the exclude list (and 'dot' entries)
+@hosts = grep { !/^(\.+|$exclude_list)$/} @hosts;
+
+my @data = ();
+# merge all the data files to sort them by time
+for my $host (@hosts) {
+    my $file = "$hostdir/$host/backups";
+    open( my $IN, '<', $file ) || die( "Cannot open $file: $!\n" );
+    while ( my $line = <$IN> ) {
+        chomp($line);
+        my @rec=split(/\t/, $line);
+        unshift( @rec, $host ); # append the hostname to the record
+        push( @data, \@rec );
+    }
+    close($IN);
+}
+
+# sort the data by start time of backups... intentionally sorting in
+# reverse so that the most recent day is the one that controls the
+# order of hosts in the graph
+@data = sort { $b->[3] <=> $a->[3] } @data;
+
+for my $rec ( @data ) {
+    # filter out anything that started before $threshold
+    if ($rec->[3] > $threshold ) {
+        # convert timestamps to proper format
+        $rec->[3] = timeconv($rec->[3]);
+        $rec->[4] = timeconv($rec->[4]);
+
+        print( join(',', @$rec ), "\n");
+    }
+}
+
+
+exit;
+
+# convert unix timestamps into the expected date format
+# localtime() will handle the timezone and DST shifts
+sub timeconv {
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(shift(@_));
+    # mm-dd-yyyy.hr:mn:sc
+    return sprintf("%02i-%02i-%04i.%02i:%02i:%02i", $mon+1, $mday, $year+1900, $hour, $min, $sec);
+}

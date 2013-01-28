@@ -1,0 +1,37 @@
+#+TITLE:  Plotting BackupPC Backup Durations
+#+AUTHOR: Carl Cravens
+#+EMAIL:  ccravens@excelii.com
+:PROPERTIES:
+#+STARTUP: content
+:END:
+
+* BackupPC Backup Duration Visualization
+
+** Purpose
+
+A graphical view of when each backup ran and how long it took gives us
+excellent insight into what is going on with the backup schedules,
+allowing us to see the problem hosts and problem time periods, to
+better tweak the system so that every host gets backed up every 24
+hours or less.
+
+
+** Resources
+
+Gnuplot turns out to be very unsuited to the task.  It can't do
+horizontal bar graphs at all, and it can't really do broken-bar
+graphs without a real kludge.  Ploticus handles it very well,
+including varying the color based on a field in the data record.
+
++ http://ploticus.sourceforge.net/
+
+
+** Wishlist
+
++ [ ] alternate wide, light gray bars to mark full days
+
++ [ ] print backup numbers on time bar
+
++ [X] color time bar differently for full vs incr
+
++ [X] plot multiple backups per host
