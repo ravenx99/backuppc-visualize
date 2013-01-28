@@ -47,6 +47,7 @@ datafield: 1
 
 #proc xaxis
   stubs: inc 3 hours
+  stubround: 3hour
   stubformat: hh:mm
   minortics: yes
   minorticinc: 1 hour
