@@ -82,7 +82,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ------------------------------------------------------------------------
 
-VERSION: 0.0.1a
+VERSION: 0.0.2
 
 Source repo: <https://github.com/ravenx99/backuppc-visualize/>
 
