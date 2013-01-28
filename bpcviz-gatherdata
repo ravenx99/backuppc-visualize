@@ -33,13 +33,15 @@ use Getopt::Std;
 my $hostdir      = '/var/lib/backuppc/pc'; # where the data files live
 my $days         = 2;                      # default number of days to view
 my $exclude_list = '';                     # list of hosts to exclude
+my $sorttype     = 'time';
 
 # process command-line options
 my %opts;
-getopts('d:p:e:', \%opts);
+getopts('d:p:e:s:', \%opts);
 # -d days
 # -p hostdir
 # -e 'exclude list'
+# -s host|time
 
 # if -d is greater than 0, then that will be a number of days to look
 # backward
@@ -50,6 +52,15 @@ if ( $opts{d} > 0 ) {
 # -p <path> is the hostdir
 if ( defined($opts{p}) ) {
     $hostdir = $opts{p};
+}
+
+# -s <sorttype> = host OR time (the default)
+if ( defined($opts{s}) ) {
+    if ( $opts{s} =~ /(time|host)/ ) {
+        $sorttype = $opts{s};
+    } else {
+        die( "-s flag must be 'host' or 'time'\n" );
+    }
 }
 
 # -e 'a b c' is a exclude regex
@@ -90,7 +101,11 @@ for my $host (@hosts) {
 # sort the data by start time of backups... intentionally sorting in
 # reverse so that the most recent day is the one that controls the
 # order of hosts in the graph
-@data = sort { $b->[3] <=> $a->[3] } @data;
+if ( $sorttype eq 'time' ) {
+    @data = sort { $b->[3] <=> $a->[3] } @data;
+} else {
+    @data = sort { $b->[0] <=> $a->[0] } @data;
+}
 
 for my $rec ( @data ) {
     # filter out anything that started before $threshold
