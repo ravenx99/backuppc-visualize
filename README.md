@@ -7,20 +7,21 @@ backuppc-visualize
 DESCRIPTION
 -----------
 
-  Plots a visual timeline of recent BackupPC host backup durations,
-  allowing a better understanding of which backups are running long or
-  otherwise causing trouble.
+Plots a visual timeline of recent BackupPC host backup durations,
+allowing a better understanding of which backups are running long or
+otherwise causing trouble.
 
   + Full and incremental backups are shown in different colors.
   + An exclude list filters hosts from the output.
   + Number of days to plot is adjustable.
+  + Sort by host name or start of most recent backup.
 
 
 DEPENDENCIES
 ------------
 
-  Requires the Ploticus graphical plotting package.
-  See <http://ploticus.sourceforge.net/>
+Requires the Ploticus graphical plotting package.
+See <http://ploticus.sourceforge.net/>
 
 
 USAGE
@@ -38,11 +39,13 @@ on a copy of the "backups" files on your own workstation.
 
 bpcviz-gatherdata takes three parameters:
 
-* -d <days> : the number of days to view, always anchored on "today"
-* -p <path> : path to backup data; defaults to
-   **/var/lib/backuppc/pc**
-* -e '<exclude list>' : a space-separated list of Perl regular
-   expressions to filter from the host names
+  + -d <days> : the number of days to view, always anchored on "today"
+  + -p <path> : path to backup data; defaults to
+    **/var/lib/backuppc/pc**
+  + -e '<exclude list>' : a space-separated list of Perl regular
+    expressions to filter from the host names
+  + -s <time|host> : Sort by host name or start time of most recent
+    backup.  The default is "time".
 
 **bpcviz.plot** is the default Ploticus script.  Feel free to use this
 as a starting point to customize your own plot output.
@@ -50,7 +53,7 @@ as a starting point to customize your own plot output.
 adjustment to its parameters is done here.
 
 **doit** is a simple example script that runs the Ploticus script and
-displays the graph (using ImageMagick or GraphicsMagick's display
+displays the graph (using ImageMagick or GraphicsMagick's **display**
 command).  If you are on Debian Linux, the Ploticus package doesn't
 name the Ploticus binary as "pl" as Ploticus expects.  I create a
 symlink of **/usr/local/bin/pl**.
