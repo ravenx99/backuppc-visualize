@@ -12,8 +12,9 @@
 
 #proc getdata
   delim: comma
-  // -d <days to view> -p <hostdir path> -e <exclude regex>
-  command: ./bpcviz-gatherdata -d 3 -p ./pc -e '.+-old barky apache2'
+  // -d <days to view> -s <time|host> -p <hostdir path> -e <exclude regex>
+  // defaults: -d 3 -s time -p /usr/lib/backuppc/pc
+  command: bpcviz-gatherdata
 
 // the legendentrys match a color (details) to
 // the field value (incr/full) in the data file,
