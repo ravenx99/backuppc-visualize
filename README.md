@@ -37,7 +37,7 @@ The intention is to generate graphs that can be viewed online
 equally well from the command-line directly on the BackupPC server or
 on a copy of the "backups" files on your own workstation.
 
-bpcviz-gatherdata takes three parameters:
+bpcviz-gatherdata takes the following optional parameters:
 
   + -d <days> : the number of days to view, always anchored on "today"
   + -p <path> : path to backup data; defaults to
