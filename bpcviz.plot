@@ -14,7 +14,7 @@
   delim: comma
   // -d <days to view> -s <time|host> -p <hostdir path> -e <exclude regex>
   // defaults: -d 3 -s time -p /usr/lib/backuppc/pc
-  command: bpcviz-gatherdata
+  command: ./bpcviz-gatherdata
 
 // the legendentrys match a color (details) to
 // the field value (incr/full) in the data file,
