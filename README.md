@@ -58,6 +58,18 @@ command).  If you are on Debian Linux, the Ploticus package doesn't
 name the Ploticus binary as "pl" as Ploticus expects.  I create a
 symlink of **/usr/local/bin/pl**.
 
+TROUBLESHOOTING
+---------------
+I Get the Message: **sh: 1: bpcviz-gatherdata: not found** and there is
+no data in the generated image.
+This is because the Scipt to gather the data (bpcviz-gatherdata) is not found in $PATH
+You can either:
+	+ edit bpcviz.plot and change **command: bpcviz-gatherdata** to **command: ./bpcviz-gatherdata**
+	+ add the directory where bpcviz-gatherdata resides to $PATH: **PATH=$PATH:/directory/where/bpvisualize/is**
+	+ link to the bpcviz-gatherdata script: **ln -s /directory/where/bpvisualize/is/bpcviz-gatherdata /usr/bin/bpcviz-gatherdata**
+
+
+
 
 AUTHOR
 ------
