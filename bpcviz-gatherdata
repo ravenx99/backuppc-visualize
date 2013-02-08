@@ -102,9 +102,11 @@ for my $host (@hosts) {
 # reverse so that the most recent day is the one that controls the
 # order of hosts in the graph
 if ( $sorttype eq 'time' ) {
+    # sort by start time
     @data = sort { $b->[3] <=> $a->[3] } @data;
 } else {
-    @data = sort { $b->[0] <=> $a->[0] } @data;
+    # sort by host name
+    @data = sort { $a->[0] cmp $b->[0] } @data;
 }
 
 for my $rec ( @data ) {
