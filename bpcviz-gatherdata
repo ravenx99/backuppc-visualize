@@ -88,7 +88,12 @@ my @data = ();
 # merge all the data files to sort them by time
 for my $host (@hosts) {
     my $file = "$hostdir/$host/backups";
-    open( my $IN, '<', $file ) || { warn( "Cannot open $file: $!\n" ); next; }
+    my $IN;
+    unless ( open( $IN, '<', $file ) ) {
+        # valid hosts with no good backups may exist, so don't die()
+        warn( "Cannot open $file: $!\n" );
+        next;
+    }
     while ( my $line = <$IN> ) {
         chomp($line);
         my @rec=split(/\t/, $line);
