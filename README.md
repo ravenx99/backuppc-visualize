@@ -28,7 +28,7 @@ USAGE
 -----
 
 BackupPC-Visualize (bpcviz) consists of two parts.  A Perl script that
-gathers backup data from **/var/lib/backuppc/pc/<host>/backups**, munges
+gathers backup data from `/var/lib/backuppc/pc/<host>/backups`, munges
 and sorts the data, and a Ploticus script that renders the data in a
 useful display.
 
@@ -41,22 +41,22 @@ bpcviz-gatherdata takes the following optional parameters:
 
   + -d <days> : the number of days to view, always anchored on "today"
   + -p <path> : path to backup data; defaults to
-    **/var/lib/backuppc/pc**
+    `/var/lib/backuppc/pc`
   + -e '<exclude list>' : a space-separated list of Perl regular
     expressions to filter from the host names
   + -s <time|host> : Sort by host name or start time of most recent
     backup.  The default is "time".
 
-**bpcviz.plot** is the default Ploticus script.  Feel free to use this
+`bpcviz.plot` is the default Ploticus script.  Feel free to use this
 as a starting point to customize your own plot output.
-**bpcviz-gatherdata** is called directly from the Ploticus script, so any
+`bpcviz-gatherdata` is called directly from the Ploticus script, so any
 adjustment to its parameters is done here.
 
-**doit** is a simple example script that runs the Ploticus script and
-displays the graph (using ImageMagick or GraphicsMagick's **display**
+`example.sh` is a simple example script that runs the Ploticus script and
+displays the graph (using ImageMagick or GraphicsMagick's `display`
 command).  If you are on Debian Linux, the Ploticus package doesn't
 name the Ploticus binary as "pl" as Ploticus expects.  I create a
-symlink of **/usr/local/bin/pl**.
+symlink of `/usr/local/bin/pl`.
 
 
 AUTHOR

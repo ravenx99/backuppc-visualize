@@ -13,7 +13,7 @@
 #proc getdata
   delim: comma
   // -d <days to view> -s <time|host> -p <hostdir path> -e <exclude regex>
-  // defaults: -d 3 -s time -p /usr/lib/backuppc/pc
+  // defaults: -d 3 -s time -p /var/lib/backuppc/pc
   command: bpcviz-gatherdata
 
 // the legendentrys match a color (details) to
