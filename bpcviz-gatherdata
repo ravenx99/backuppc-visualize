@@ -132,6 +132,6 @@ exit;
 # localtime() will handle the timezone and DST shifts
 sub timeconv {
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(shift(@_));
-    # mm-dd-yyyy.hr:mn:sc
-    return sprintf("%02i-%02i-%04i.%02i:%02i:%02i", $mon+1, $mday, $year+1900, $hour, $min, $sec);
+    # yyyy-mm-dd.hr:mn:sc
+    return sprintf("%04i-%02i-%02i.%02i:%02i:%02i", $year+1900, $mon+1, $mday, $hour, $min, $sec);
 }
