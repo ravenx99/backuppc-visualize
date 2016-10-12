@@ -38,7 +38,7 @@ datafield: 1
 #proc areadef
   title: BackupPC Timeline
   rectangle: 1.5 0.5 14.5 9.5
-  xscaletype: datetime mm-dd-yyyy.hh:mm
+  xscaletype: datetime yyyy-mm-dd.hh:mm
   xautorange: datafield=4,5 nearest=hour
   yscaletype: categories
 
